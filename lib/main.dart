@@ -78,12 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(5.0),
         ),
-        child: ListTile(
+        children: ListTile(
           title: Text(record.name),
-          subtitle: Text(record.title),
-          trailing: Text(record.votes.toString()),
+          // subtitle:Text(record.title),
+          // trailing: Text(record.votes.toString()),
           //onTap: () => print(record),
-          onTap: () => record.reference.update({'votes': FieldValue.increment(1)}),
+          // onTap: () => record.reference.update({'votes': FieldValue.increment(1)}),
+          title: Text(record.introduction),
         ),
       ),
     );
@@ -91,16 +92,25 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Record {
+  final String comment;
+  final String introduction;
   final String name;
+  final String registrationdate;
   final String title;
   final int votes;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {required this.reference})
-      : assert(map['name'] != null),
+      : assert(map['comment'] != null),
+        assert(map['introduction'] != null),
+        assert(map['name'] != null),
+        assert(map['registraiondate'] != null),
         assert(map['votes'] != null),
         assert(map['title'] != null),
+        comment = map['comment'],
+        introduction = map['introduction'],
         name = map['name'],
+        registrationdate = map['registrationdate'],
         votes = map['votes'],
         title = map['title'];
 
