@@ -65,32 +65,17 @@ class _MyHomePageState extends State<MyHomePage> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                child:Container(
-                  width:600,height:240,
-                  child:Image.asset(
-                    'images/sample-img1.jpg',
-                    fit:BoxFit.cover,
+              Card(
+                  child:Text(
+                    'Card01',
+                    style:TextStyle(
+                      fontSize: 50
+                    ),
                   ),
-                )
-              ),
-              Expanded(
-                  child:Container(
-                    width:600,height:240,
-                    child:Image.asset(
-                      'images/sample-img2.jpg',
-                      fit:BoxFit.cover,
-                    ),
-                  )
-              ),
-              Expanded(
-                  child:Container(
-                    width:600,height:240,
-                    child:Image.asset(
-                      'images/sample-img3.jpg',
-                      fit:BoxFit.cover,
-                    ),
-                  )
+                    color:Colors.red,
+                    margin: EdgeInsets.all(30),
+                    elevation: 10,
+                    shadowColor: Colors.red,
               ),
             ],
           );
