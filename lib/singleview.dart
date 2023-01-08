@@ -5,6 +5,11 @@ import 'main.dart';
 
 class SingleView extends StatelessWidget {
   List<DocumentSnapshot> documentList = [];
+  int index;
+
+  SingleView(this.index){
+    print("################"+index.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +18,11 @@ class SingleView extends StatelessWidget {
       body: FutureBuilder(
         future: initialize(),
         builder: (context, snapshot) {
-          return ListView.builder(
-            itemCount: documentList.length,
-            itemBuilder: (context, index) {
-              return Card(
+          return SingleChildScrollView(
+            child:Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+               Card(
                 child: Column(
                   children: [
                     Ink.image(
@@ -63,9 +69,10 @@ class SingleView extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            },
-          );
+              ),
+          ],
+          ),
+    );
         },
       ),
     );

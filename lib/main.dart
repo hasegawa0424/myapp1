@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SingleView()),
+                      MaterialPageRoute(builder: (context) => SingleView(index)),
                     );/*タップ処理*/},
                   child:Card(
                 child: Column(
