@@ -18,6 +18,9 @@ class SingleView extends StatelessWidget {
       body: FutureBuilder(
         future: initialize(),
         builder: (context, snapshot) {
+          // if (!snapshot.hasData) {
+          //   return LinearProgressIndicator();
+          // }
           return SingleChildScrollView(
             child:Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

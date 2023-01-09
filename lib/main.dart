@@ -27,65 +27,63 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<DocumentSnapshot> documentList = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('PortfolioApp')),
-      body: FutureBuilder(
-        future: initialize(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('baby').snapshots(),
         builder: (context, snapshot) {
-
+          if (!snapshot.hasData) {
+            return LinearProgressIndicator();
+          }
+          print(
+              "##################################################### initialize()");
+          snapshot.data!.docs.forEach((elem) {
+            print(elem.get('name'));
+            print(elem.get('registration date'));
+            print(elem.get('comment'));
+            print(elem.get('introduction'));
+            print(elem.get('title'));
+          });
+          print(
+              "##################################################### initialize()");
           return ListView.builder(
-            itemCount: documentList.length,
+            itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               return InkWell(
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SingleView(index)),
-                    );/*タップ処理*/},
-                  child:Card(
-                child: Column(
-                  children: [
-                    Ink.image(
-                      image: NetworkImage(
-                        documentList[index].get('imageURL').toString(),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SingleView(index)),
+                  );
+                  /*タップ処理*/
+                },
+                child: Card(
+                  child: Column(
+                    children: [
+                      Ink.image(
+                        image: NetworkImage(
+                          snapshot.data!.docs[index].get('imageURL').toString(),
+                        ),
+                        height: 240,
+                        fit: BoxFit.contain,
                       ),
-                      height: 240,
-                      fit: BoxFit.contain,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(16).copyWith(bottom: 0),
-                      child: Text(
-                        documentList[index].get('title').toString(),
-                        style: TextStyle(fontSize: 16),
+                      Padding(
+                        padding: EdgeInsets.all(16).copyWith(bottom: 0),
+                        child: Text(
+                          snapshot.data!.docs[index].get('title').toString(),
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
               );
             },
           );
         },
       ),
     );
-  }
-
-  Future<void> initialize() async {
-    final snapshot = await FirebaseFirestore.instance.collection('baby').get();
-    documentList = snapshot.docs;
-
-    print("##################################################### initialize()");
-    documentList.forEach((elem) {
-      print(elem.get('name'));
-      print(elem.get('registration date'));
-      print(elem.get('comment'));
-      print(elem.get('introduction'));
-      print(elem.get('title'));
-    });
-    print("##################################################### initialize()");
   }
 }
