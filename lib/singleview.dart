@@ -11,8 +11,6 @@ class SingleView extends StatelessWidget {
     print("################" + index.toString());
   }
 
-  get yuto => null;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,20 +80,33 @@ class SingleView extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.all(16).copyWith(bottom: 0),
-                        child: Text(
-                          snapshot.data!.docs[index].get('comment').toString(),
-                          style: TextStyle(fontSize: 16),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount:
+                              snapshot.data!.docs[index].get('comment').length,
+                          itemBuilder: (contextC, indexC) {
+                            return Card(
+                                child: Text(snapshot.data!.docs[index]
+                                    .get('comment')[indexC]
+                                    .toString()));
+                          },
                         ),
                       ),
-                          TextButton(
-                            onPressed: () {
-                              FirebaseFirestore.instance.collection('baby').doc('XC8iCFmvUsiOeN4Qy3Ef').update(
-                                {
-                                  'name': yuto,
-                                },
-                              );/* ボタンがタップされた時の処理 */ },
-                            child: Text('click here'),
-                          )
+                      TextButton(
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection('baby')
+                              .doc('XC8iCFmvUsiOeN4Qy3Ef')
+                              .update(
+                            {
+                              'name': 'yuto',
+                            },
+                          );
+                          /* ボタンがタップされた時の処理 */
+                        },
+                        child: Text('click here'),
+                      )
                     ],
                   ),
                 ),
