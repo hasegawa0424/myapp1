@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 
 class SingleView extends StatelessWidget {
-  List<DocumentSnapshot> documentList = [];
+  late CollectionReference cref;
   int index;
 
   SingleView(this.index) {
-    print("################" + index.toString());
+    cref = FirebaseFirestore.instance.collection('baby');
   }
 
   @override
@@ -16,7 +16,7 @@ class SingleView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('SingleView')),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('baby').snapshots(),
+        stream: cref.snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return LinearProgressIndicator();
@@ -95,12 +95,9 @@ class SingleView extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          FirebaseFirestore.instance
-                              .collection('baby')
-                              .doc('XC8iCFmvUsiOeN4Qy3Ef')
-                              .update(
+                          cref.doc(snapshot.data!.docs[index].id).update(
                             {
-                              'name': 'yuto',
+                              "comment": FieldValue.arrayUnion(['kire-']),
                             },
                           );
                           /* ボタンがタップされた時の処理 */
