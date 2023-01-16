@@ -6,6 +6,8 @@ import 'main.dart';
 class SingleView extends StatelessWidget {
   late CollectionReference cref;
   int index;
+  late String commentc;
+  final editController = TextEditingController();
 
   SingleView(this.index) {
     cref = FirebaseFirestore.instance.collection('baby');
@@ -93,17 +95,33 @@ class SingleView extends StatelessWidget {
                           },
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          cref.doc(snapshot.data!.docs[index].id).update(
-                            {
-                              "comment": FieldValue.arrayUnion(['kire-']),
-                            },
-                          );
-                          /* ボタンがタップされた時の処理 */
-                        },
-                        child: Text('click here'),
-                      )
+                      Padding(
+                        padding: EdgeInsets.all(16).copyWith(bottom: 0),
+                        child: TextField(
+                            controller: editController,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'ここにコメントを入力'),
+                            onChanged: (text) {
+                              // TODO: ここで取得したtextを使う
+                              commentc = text;
+                            }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(16).copyWith(bottom: 0),
+                        child: TextButton(
+                          onPressed: () {
+                            cref.doc(snapshot.data!.docs[index].id).update(
+                              {
+                                "comment": FieldValue.arrayUnion([commentc]),
+                              },
+                            );
+                            editController.clear();
+                            /* ボタンがタップされた時の処理 */
+                          },
+                          child: Text('コメント追加'),
+                        ),
+                      ),
                     ],
                   ),
                 ),
