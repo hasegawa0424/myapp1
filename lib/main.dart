@@ -2,11 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'singleview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await signinfirebase();
   runApp(MyApp());
+}
+
+Future<void> signinfirebase() async{
+    try {
+      // メール/パスワードでログイン
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      final UserCredential result =
+      await auth.signInWithEmailAndPassword(
+        email: 'kazunori@gmail.com',
+        password: 'abc123',
+      );
+      // ログインに成功した場合
+      print(
+          "##################################################### login()");
+      print(result.user!.email);
+    } catch (e) {
+      // ログインに失敗した場合
+      print(
+          "##################################################### login()");
+      print('ログイン失敗');
+    }
 }
 
 class MyApp extends StatelessWidget {
