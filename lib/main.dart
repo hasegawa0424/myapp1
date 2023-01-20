@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('PortfolioApp')),
+      appBar: AppBar(title: Text('Home')),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('baby').snapshots(),
         builder: (context, snapshot) {
@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   /*タップ処理*/
                 },
                 child: Card(
+                  elevation: 50,
                   child: Column(
                     children: [
                       Ink.image(

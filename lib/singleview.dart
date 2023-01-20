@@ -51,50 +51,61 @@ class SingleView extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(16).copyWith(bottom: 0),
                         child: Text(
-                          snapshot.data!.docs[index].get('title').toString(),
+                          "タイトル:" +
+                              snapshot.data!.docs[index]
+                                  .get('title')
+                                  .toString(),
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(16).copyWith(bottom: 0),
                         child: Text(
-                          snapshot.data!.docs[index].get('name').toString(),
+                          "名前:" +
+                              snapshot.data!.docs[index].get('name').toString(),
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(16).copyWith(bottom: 0),
                         child: Text(
-                          snapshot.data!.docs[index]
-                              .get('registration date')
-                              .toString(),
+                          "登録日:" +
+                              snapshot.data!.docs[index]
+                                  .get('registration date')
+                                  .toString(),
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(16).copyWith(bottom: 0),
                         child: Text(
-                          snapshot.data!.docs[index]
-                              .get('introduction')
-                              .toString(),
+                          "紹介文:" +
+                              snapshot.data!.docs[index]
+                                  .get('introduction')
+                                  .toString(),
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(16).copyWith(bottom: 0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount:
-                              snapshot.data!.docs[index].get('comment').length,
-                          itemBuilder: (contextC, indexC) {
-                            return Card(
-                                child: Text(snapshot.data!.docs[index]
-                                    .get('comment')[indexC]
-                                    .toString()));
-                          },
-                        ),
-                      ),
+                          padding: EdgeInsets.all(16).copyWith(bottom: 0),
+                          child: Column(
+                            children: [
+                              Text('コメント一覧'),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data!.docs[index]
+                                    .get('comment')
+                                    .length,
+                                itemBuilder: (contextC, indexC) {
+                                  return Card(
+                                      child: Text(snapshot.data!.docs[index]
+                                          .get('comment')[indexC]
+                                          .toString()));
+                                },
+                              ),
+                            ],
+                          )),
                       Padding(
                         padding: EdgeInsets.all(16).copyWith(bottom: 0),
                         child: TextField(
