@@ -8,6 +8,22 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class Register extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: RegisterPage(),
+    );
+  }
+}
+
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() {
+    return _RegisterPageState();
+  }
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   late CollectionReference cref;
   String? data_title;
   String? data_name;
@@ -15,7 +31,8 @@ class Register extends StatelessWidget {
   String? data_introduction;
   String? data_imageURL;
 
-  Register() {
+  @override
+  initState() {
     cref = FirebaseFirestore.instance.collection('baby');
   }
 
@@ -32,15 +49,18 @@ class Register extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                // Ink.image(
-                //   image: NetworkImage(
-                //     data_imageURL ?? '',
-                //   ),
-                //   height: 240,
-                //   fit: BoxFit.contain,
-                // ),
+                Ink.image(
+                  image: NetworkImage(
+                    data_imageURL ?? '',
+                  ),
+                  height: 240,
+                  fit: BoxFit.contain,
+                ),
                 OutlinedButton(onPressed: () async {
                   await addPicture();
+                  setState(() {
+
+                  });
                 }, child: Text('写真選択')),
                 Padding(
                   padding: EdgeInsets.all(16).copyWith(bottom: 0),
