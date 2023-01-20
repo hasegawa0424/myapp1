@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Register extends StatelessWidget {
   late CollectionReference cref;
@@ -9,6 +13,7 @@ class Register extends StatelessWidget {
   String? data_name;
   String? data_registration_date;
   String? data_introduction;
+  String? data_imageURL;
 
   Register() {
     cref = FirebaseFirestore.instance.collection('baby');
@@ -27,7 +32,16 @@ class Register extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                OutlinedButton(onPressed: () {}, child: Text('写真選択')),
+                // Ink.image(
+                //   image: NetworkImage(
+                //     data_imageURL ?? '',
+                //   ),
+                //   height: 240,
+                //   fit: BoxFit.contain,
+                // ),
+                OutlinedButton(onPressed: () async {
+                  await addPicture();
+                }, child: Text('写真選択')),
                 Padding(
                   padding: EdgeInsets.all(16).copyWith(bottom: 0),
                   child: TextField(
@@ -76,7 +90,7 @@ class Register extends StatelessWidget {
                     onPressed: () async {
                       final data = {
                         'comment': <String>[],
-                        'imageURL': 'https://booth.pximg.net/57d05e9d-0336-44a8-8ef7-9e5c58a9f641/i/2994358/a467d0db-3ed5-4a38-a158-4a122ae94d81_base_resized.jpg',
+                        'imageURL': data_imageURL ?? '',
                         'introduction': data_introduction ?? '',
                         'name': data_name ?? '',
                         'registration date': data_registration_date ?? '',
@@ -94,5 +108,29 @@ class Register extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> addPicture() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      final User user = FirebaseAuth.instance.currentUser!;
+
+      // Storageに登録
+      final int timestamp = DateTime.now().microsecondsSinceEpoch;
+      final File file = File(result.files.single.path!);
+      final String name = file.path.split('/').last;
+      final String path = '${timestamp}_$name';
+      final TaskSnapshot task = await FirebaseStorage.instance
+          .ref()
+          .child('portfolio')
+          .child(path)
+          .putFile(file);
+
+      // Firestoreに登録
+      data_imageURL = await task.ref.getDownloadURL();
+    }
   }
 }
