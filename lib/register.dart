@@ -5,10 +5,10 @@ import 'main.dart';
 
 class Register extends StatelessWidget {
   late CollectionReference cref;
-  late String data_title;
-  late String data_name;
-  late String data_registration_date;
-  late String data_introduction;
+  String? data_title;
+  String? data_name;
+  String? data_registration_date;
+  String? data_introduction;
 
   Register() {
     cref = FirebaseFirestore.instance.collection('baby');
@@ -31,7 +31,6 @@ class Register extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(16).copyWith(bottom: 0),
                   child: TextField(
-                      controller: editController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'ここにタイトルを入力'),
@@ -76,12 +75,12 @@ class Register extends StatelessWidget {
                 OutlinedButton(
                     onPressed: () async {
                       final data = {
-                        //'comment': ['かわいい', 'きれい'],
-                        //'imageURL': 'https://booth.pximg.net/57d05e9d-0336-44a8-8ef7-9e5c58a9f641/i/2994358/a467d0db-3ed5-4a38-a158-4a122ae94d81_base_resized.jpg',
-                        'introduction': data_introduction,
-                        'name': data_name,
-                        'registration date': data_registration_date,
-                        'title': data_title,
+                        'comment': <String>[],
+                        'imageURL': 'https://booth.pximg.net/57d05e9d-0336-44a8-8ef7-9e5c58a9f641/i/2994358/a467d0db-3ed5-4a38-a158-4a122ae94d81_base_resized.jpg',
+                        'introduction': data_introduction ?? '',
+                        'name': data_name ?? '',
+                        'registration date': data_registration_date ?? '',
+                        'title': data_title ?? '',
                       };
                       await FirebaseFirestore.instance
                           .collection('baby')
