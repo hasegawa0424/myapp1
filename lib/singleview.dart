@@ -10,7 +10,7 @@ class SingleView extends StatelessWidget {
   final editController = TextEditingController();
 
   SingleView(this.index) {
-    cref = FirebaseFirestore.instance.collection('baby');
+    cref = FirebaseFirestore.instance.collection('PortfolioApp');
   }
 
   @override

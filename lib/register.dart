@@ -33,13 +33,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   initState() {
-    cref = FirebaseFirestore.instance.collection('baby');
+    cref = FirebaseFirestore.instance.collection('PortfolioApp');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('register')),
+      appBar: AppBar(title: Text('Register')),
       body: StreamBuilder<QuerySnapshot>(
         stream: cref.snapshots(),
         builder: (context, snapshot) {
@@ -117,9 +117,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         'title': data_title ?? '',
                       };
                       await FirebaseFirestore.instance
-                          .collection('baby')
+                          .collection('PortfolioApp')
                           .doc()
                           .set(data);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyApp()),
+                      );
                     },
                     child: Text('登録')),
               ],
